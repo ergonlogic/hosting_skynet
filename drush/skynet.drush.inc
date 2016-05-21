@@ -67,3 +67,34 @@ function _drush_skynet_restart_service() {
   }
 }
 
+/**
+ * @file
+ *  Declares a new service type and a basic implementation of it.
+ *  It matches the same service definition in the hosting front end.
+ */
+
+/**
+ * Implements hook_drush_init().
+ */
+function skynet_drush_init() {
+  skynet_provision_register_autoload();
+}
+
+/**
+ * Register our directory as a place to find provision classes.
+ */
+function skynet_provision_register_autoload() {
+  static $loaded = FALSE;
+  if (!$loaded) {
+    $loaded = TRUE;
+    provision_autoload_register_prefix('Provision_', dirname(__FILE__));
+  }
+}
+
+/**
+ * Expose the service type this extension defines to Provision.
+ */
+function skynet_provision_services() {
+  skynet_provision_register_autoload();
+  return array('TaskQueue' => 'Skynet');
+}

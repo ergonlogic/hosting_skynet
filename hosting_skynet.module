@@ -20,3 +20,21 @@ function hosting_skynet_menu() {
   return $items;
 }
 
+/**
+ * Implements hook_hosting_service_type().
+ */
+function hosting_skynet_hosting_service_type() {
+  return array(
+    'TaskQueue' => array(
+      'title' => t('Task queue service'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_hosting_service().
+ */
+function hosting_skynet_hosting_service() {
+  return array('Skynet' => 'TaskQueue');
+}
+
