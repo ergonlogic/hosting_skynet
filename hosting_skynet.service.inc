@@ -41,8 +41,8 @@ class hostingService_TaskQueue_Skynet extends hostingService_TaskQueue {
    */
   function load() {
     parent::load();
-    $this->heartbeat_interval = variable_get('hosting_heartbeat_interval_' . $this->server->nid, $this->default_heartbeat_interval);
-    $this->parallel_tasks = variable_get('hosting_parallel_tasks_' . $this->server->nid, $this->default_parallel_tasks);
+    $this->heartbeat_interval = variable_get('hosting_skynet_heartbeat_interval_' . $this->server->nid, $this->default_heartbeat_interval);
+    $this->parallel_tasks = variable_get('hosting_skynet_parallel_tasks_' . $this->server->nid, $this->default_parallel_tasks);
   }
 
   /**
@@ -84,9 +84,6 @@ class hostingService_TaskQueue_Skynet extends hostingService_TaskQueue {
       '#title' => t('Heartbeat interval'),
       '#description' => t('The number of seconds that can pass before a task queue is considered down.'),
       '#default_value' => ($this->heartbeat_interval) ? $this->heartbeat_interval : $this->default_heartbeat_interval,
-      '#maxlength' => 10,
-      '#size' => 10,
-      '#weight' => 5,
     );
 
     $form['parallel_tasks'] = array(
@@ -94,9 +91,6 @@ class hostingService_TaskQueue_Skynet extends hostingService_TaskQueue {
       '#title' => t('Parallel tasks'),
       '#description' => t('The maximum number of tasks to process in parallel.'),
       '#default_value' => ($this->parallel_tasks) ? $this->parallel_tasks : $this->default_parallel_tasks,
-      '#maxlength' => 10,
-      '#size' => 10,
-      '#weight' => 5,
     );
 
   }
@@ -107,10 +101,10 @@ class hostingService_TaskQueue_Skynet extends hostingService_TaskQueue {
   function validate(&$node, &$form, &$form_state) {
     parent::validate($node, $form, $form_state);
 
-    if (sizeof($this->heartbeat_interval) < 30) {
+    if ($this->heartbeat_interval < 30) {
       form_set_error('heartbeat_interval', t("The heartbeat interval must not be shorter than 30 seconds."));
     }
-    if (sizeof($this->parallel_tasks) < 1) {
+    if ($this->parallel_tasks < 1) {
       form_set_error('parallel_tasks', t("Cannot run fewer than one (1) task at a time."));
     }
   }
