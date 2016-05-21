@@ -4,11 +4,9 @@ Skynet
 Skynet is an experimental replacement for the Aegir Hosting System's Queue
 Daemon. It is written in Python using Cement (http://builtoncement.org).
 
-It is currently an early prototype, and thus not even close to production
-ready. There isn't yet a front-end, nor are most of the options for the
-existing PHP queue daemon supported.
-
-
+It is currently pretty basic, but used in production by several Aegir
+maintainers.
+ 
 Dependencies
 ------------
 
@@ -23,11 +21,7 @@ Install pip, VirtualEnv and cement:
 Installation
 -----------
 
-Eventually, we'll probably publish Skynet as pip and .deb packages. For now,
-clone it from the github repository:
-
-    $ cd /var/aegir/.drush
-    $ git clone https://github.com/PraxisLabs/skynet.git
+Install as you would any other Drupal module.
 
 
 Configuration
@@ -42,9 +36,7 @@ Aegir's database. This file should be at '~/config/skynet.conf' and look like:
     user = <aegir_site_db_user>
     passwd = <aegir_site_db_password>
 
-Eventually, the creation of this config file will be automated. However, for
-the time-being, it has to be written manually. These credentials can be found
-at the top of the Aegir front-end's drushrc.php, or in the site's vhost.
+The creation of this config file is automated in a post-verify hook.
 
 
 Usage
@@ -65,6 +57,6 @@ This command has a handy alias 'q', and can also be run in the background:
 
 
 --------------------------------------------------------------------------------
-Author:    Christopher (ergonlogic) Gervais (mailto:chris@praxis.coop)
-Copyright: Copyright (c) 2014 Praxis Laboratories Coop (http://praxis.coop)
+Author:    Christopher (ergonlogic) Gervais (mailto:chris@ergonlogic.com)
+Copyright: Copyright (c) 2016 Ergon Logic Enteprises (http://ergonlogic.com)
 License:   GPLv3 or later
