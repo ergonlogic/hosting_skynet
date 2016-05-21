@@ -8,11 +8,10 @@
  * Configuration form for Skynet queue daemon.
  */
 function hosting_skynet_settings_form($form, &$form_state) {
+  $form = array();
 
   $form['description'] = array(
-    '#type' => 'markup',
-    '#value' => t('Note that saving this form will trigger a verify task for the hostmaster site. This is required in oder to write updated settings to the config file for the Python daemon.'),
-    '#weight' => -100,
+    '#markup' => t('Note that saving this form will trigger a verify task for the hostmaster site. This is required in oder to write updated settings to the config file for the Python daemon.'),
   );
 
 #  $form['hosting_skynet_polling_frequency'] = array();
