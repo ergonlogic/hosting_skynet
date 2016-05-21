@@ -17,18 +17,38 @@ Install pip, VirtualEnv and cement:
     # pip install --upgrade virtualenv
     # pip install cement
 
+In addition to the above dependencies of the Skynet Python script, the use of
+Supervisor is highly recommended to ensure the Daemon continues running
+reliably. Installation should be as simple as:
+
+    # apt-get install supervisor
+
 
 Installation
------------
+------------
 
-Install as you would any other Drupal module.
+Install as you would any other Drupal module. Enable it via the Hosting
+Features pages. This will trigger a verify task for the Hostmaster site. Upon
+completion of that task, the configuration for running the Skynet daemon should
+be in place.
+
+All that should be left at that point is to drop the provided Supervisor config
+script into place and restart Supervisor:
+
+    # cp /path/to/hostmaster/platform/skynet/module/drush/skynet.supervisor.conf /etc/supervisor/conf.d/
+    # service supervisor restart
+
+Confirm that the service is running:
+
+    # supervisorctl status skynet-queue
+    skynet-queue                     RUNNING    pid 16047, uptime 0:18:13
 
 
 Configuration
 -------------
 
 Skynet requires a configuration file containing credentials to connect to
-Aegir's database. This file should be at '~/config/skynet.conf' and look like:
+Aegir's database. This file should be at '~/config/skynet/skynet.conf' and look like:
 
     [database]
     host = localhost
@@ -36,24 +56,27 @@ Aegir's database. This file should be at '~/config/skynet.conf' and look like:
     user = <aegir_site_db_user>
     passwd = <aegir_site_db_password>
 
-The creation of this config file is automated in a post-verify hook.
+The creation of this config file is automated in a post-verify hook on the
+hostmaster site.
 
 
 Usage
 -----
 
-Since Skynet is built on Cement, we are provided with a number of useful CLI
-options by default, including a help option:
+Generally, you'll want to run the Skynet Daemon via Supervisor or the like.
+However, it can be run manually. Since Skynet is built on Cement, we are
+provided with a number of useful CLI options by default, including a help
+option:
 
-    $ ~/.drush/skynet/skynet.py -h
+    $ /var/aegir/config/skynet/skynet.py -h
 
 The only sub-command implemented so far is to run a queue daemon:
 
-    $ ~/.drush/skynet/skynet.py queued
+    $ /var/aegir/config/skynet/skynet.py queued
 
 This command has a handy alias 'q', and can also be run in the background:
 
-    $ ~/.drush/skynet/skynet.py q --daemon
+    $ /var/aegir/config/config/skynet/skynet.py q --daemon
 
 
 --------------------------------------------------------------------------------

@@ -1,0 +1,22 @@
+<?php
+/**
+ * @file hosting_skynet.module
+ * Contains hooks for the skynet queue daemon module.
+ */
+
+/**
+ * Implements hook_menu().
+ */
+function hosting_skynet_menu() {
+  $items['admin/hosting/skynet'] = array(
+    'title' => 'Skynet queue daemon',
+    'description' => 'Configure the daemonized tasks queue daemon.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('hosting_skynet_settings_form'),
+    'access arguments' => array('administer hosting queues'),
+    'type' => MENU_LOCAL_TASK,
+    'file' => 'hosting_skynet.admin.inc',
+  );
+  return $items;
+}
+

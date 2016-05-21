@@ -18,19 +18,22 @@ function drush_skynet_post_provision_verify() {
   }
 }
 
+/**
+ * Implements drush_HOOK_post_COMMAND().
+ */
 function drush_skynet_post_provision_migrate() {
   drush_skynet_post_provision_verify();
 }
 
 /**
- * Implements drush_hook_post_COMMAND().
+ * Implements drush_HOOK_post_COMMAND().
  *
  * When we install the hostmaster site, we need to write the skynet config file
  * with the DB credentials, and start the service.
  */
 function drush_skynet_post_provision_install() {
   if (d()->type == 'site' && d()->profile == 'hostmaster') {
-    drush_skynet_post_provision_migrate();
+    drush_skynet_post_provision_verify();
   }
 }
 
@@ -39,7 +42,7 @@ function drush_skynet_post_provision_install() {
  */
 function _drush_skynet_create_config() {
   $template_path = dirname(__FILE__) . '/templates/skynet.conf.tpl.php'; 
-  $dest_path = '/var/aegir/config/skynet.conf';
+  $dest_path = '/var/aegir/config/skynet/skynet.conf';
   $site_context = drush_get_context('site');
   $variables = array(
     'host' => $site_context['db_host'],
@@ -63,4 +66,4 @@ function _drush_skynet_restart_service() {
     drush_set_error('SKYNET_ERROR_RESTARTING_SERVICE', dt("An error occurred restarting the Skynet queue service. The command output follows:\n :output", array(':output' => drush_shell_exec_output())));
   }
 }
- 
+

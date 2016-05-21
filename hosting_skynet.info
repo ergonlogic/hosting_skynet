@@ -1,0 +1,7 @@
+name = Hosting Skynet
+description = "Skynet is an experimental replacement for the Queue Daemon."
+package = Aegir
+core = 7.x
+configure = admin/hosting/skynet
+dependencies[] = hosting
+
