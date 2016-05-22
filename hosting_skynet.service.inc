@@ -14,7 +14,7 @@ class hostingService_QueueWorker extends hostingService {
 
 
 /**
- * An implementation of the task queue service type, registered with hook_hosting_service.
+ * An implementation of the queue worker service type, registered with hook_hosting_service.
  */
 class hostingService_QueueWorker_Skynet extends hostingService_QueueWorker {
 
@@ -24,9 +24,9 @@ class hostingService_QueueWorker_Skynet extends hostingService_QueueWorker {
 
   public $has_restart_cmd = TRUE;
 
-  protected $default_heartbeat_interval = 60;
+  protected $heartbeat_interval = 60;
   
-  protected $default_parallel_tasks = 1;
+  protected $parallel_tasks = 1;
 
   function default_restart_cmd() {
     return "/usr/bin/supervisorctl restart skynet-queue";
@@ -41,8 +41,8 @@ class hostingService_QueueWorker_Skynet extends hostingService_QueueWorker {
    */
   function load() {
     parent::load();
-    $this->heartbeat_interval = variable_get('hosting_skynet_heartbeat_interval_' . $this->server->nid, $this->default_heartbeat_interval);
-    $this->parallel_tasks = variable_get('hosting_skynet_parallel_tasks_' . $this->server->nid, $this->default_parallel_tasks);
+    $this->heartbeat_interval = variable_get('hosting_skynet_heartbeat_interval_' . $this->server->nid, $this->heartbeat_interval);
+    $this->parallel_tasks = variable_get('hosting_skynet_parallel_tasks_' . $this->server->nid, $this->parallel_tasks);
   }
 
   /**
@@ -83,14 +83,14 @@ class hostingService_QueueWorker_Skynet extends hostingService_QueueWorker {
       '#type' => 'textfield',
       '#title' => t('Heartbeat interval'),
       '#description' => t('The number of seconds that can pass before a task queue is considered down.'),
-      '#default_value' => ($this->heartbeat_interval) ? $this->heartbeat_interval : $this->default_heartbeat_interval,
+      '#default_value' => $this->heartbeat_interval,
     );
 
     $form['parallel_tasks'] = array(
       '#type' => 'textfield',
       '#title' => t('Parallel tasks'),
       '#description' => t('The maximum number of tasks to process in parallel.'),
-      '#default_value' => ($this->parallel_tasks) ? $this->parallel_tasks : $this->default_parallel_tasks,
+      '#default_value' => $this->parallel_tasks,
     );
 
   }
