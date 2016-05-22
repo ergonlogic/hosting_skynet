@@ -8,15 +8,15 @@
 /**
  * The base service type class, registered with hook_hosting_service_type.
  */
-class hostingService_TaskQueue extends hostingService {
-  public $service = 'TaskQueue';
+class hostingService_QueueWorker extends hostingService {
+  public $service = 'QueueWorker';
 }
 
 
 /**
  * An implementation of the task queue service type, registered with hook_hosting_service.
  */
-class hostingService_TaskQueue_Skynet extends hostingService_TaskQueue {
+class hostingService_QueueWorker_Skynet extends hostingService_QueueWorker {
 
   public $type = 'Skynet';
 

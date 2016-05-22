@@ -1,9 +1,9 @@
 <?php
 
 /**
- * The Skynet implementation of the TaskQueue service type.
+ * The Skynet implementation of the QueueWorker service type.
  */
-class Provision_Service_TaskQueue_Skynet extends Provision_Service_TaskQueue {
+class Provision_Service_QueueWorker_Skynet extends Provision_Service_QueueWorker {
 
   /**
    * The default value for the restart command input.
@@ -22,7 +22,7 @@ class Provision_Service_TaskQueue_Skynet extends Provision_Service_TaskQueue {
     /**
      * Register configuration classes for the create_config / delete_config methods.
      */
-    $this->configs['server'][] = 'Provision_Config_TaskQueue';
+    $this->configs['server'][] = 'Provision_Config_QueueWorker';
 
     /**
      * Save configurable values in the server context.

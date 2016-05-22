@@ -96,5 +96,5 @@ function skynet_provision_register_autoload() {
  */
 function skynet_provision_services() {
   skynet_provision_register_autoload();
-  return array('TaskQueue' => 'Skynet');
+  return array('QueueWorker' => 'Skynet');
 }

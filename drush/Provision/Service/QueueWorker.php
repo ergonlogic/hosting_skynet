@@ -4,11 +4,9 @@
  * The service type base class.
  *
  * All implementations of the service type will inherit this class.
- * This class should define the 'public API' to be used by the rest
- * of the system, which should not expose implementation details.
  */
-class Provision_Service_TaskQueue extends Provision_Service {
-  public $service = 'TaskQueue';
+class Provision_Service_QueueWorker extends Provision_Service {
+  public $service = 'QueueWorker';
 
   /**
    * Called on provision-verify.

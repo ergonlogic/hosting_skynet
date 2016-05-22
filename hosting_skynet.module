@@ -25,8 +25,8 @@ function hosting_skynet_menu() {
  */
 function hosting_skynet_hosting_service_type() {
   return array(
-    'TaskQueue' => array(
-      'title' => t('Task queue service'),
+    'QueueWorker' => array(
+      'title' => t('Queue worker service'),
     ),
   );
 }
@@ -35,6 +35,6 @@ function hosting_skynet_hosting_service_type() {
  * Implements hook_hosting_service().
  */
 function hosting_skynet_hosting_service() {
-  return array('Skynet' => 'TaskQueue');
+  return array('Skynet' => 'QueueWorker');
 }
 
