@@ -28,7 +28,7 @@ class Provision_Service_QueueWorker_Skynet extends Provision_Service_QueueWorker
      * Save configurable values in the server context.
      */
     $this->server->setProperty('heartbeat_interval', '60');
-    $this->server->setProperty('parallel_tasks', '1');
+    $this->server->setProperty('concurrent_tasks', '1');
 
     /**
      * Save non-configurable values in the server context.

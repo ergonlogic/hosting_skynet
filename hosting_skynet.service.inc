@@ -26,7 +26,7 @@ class hostingService_QueueWorker_Skynet extends hostingService_QueueWorker {
 
   protected $heartbeat_interval = 60;
   
-  protected $parallel_tasks = 1;
+  protected $concurrent_tasks = 1;
 
   function default_restart_cmd() {
     return "/usr/bin/supervisorctl restart skynet-queue";
@@ -42,7 +42,7 @@ class hostingService_QueueWorker_Skynet extends hostingService_QueueWorker {
   function load() {
     parent::load();
     $this->heartbeat_interval = variable_get('hosting_skynet_heartbeat_interval_' . $this->server->nid, $this->heartbeat_interval);
-    $this->parallel_tasks = variable_get('hosting_skynet_parallel_tasks_' . $this->server->nid, $this->parallel_tasks);
+    $this->concurrent_tasks = variable_get('hosting_skynet_concurrent_tasks_' . $this->server->nid, $this->concurrent_tasks);
   }
 
   /**
@@ -59,10 +59,10 @@ class hostingService_QueueWorker_Skynet extends hostingService_QueueWorker {
       '#title' => t('Heartbeat interval'),
       '#markup' => filter_xss($this->heartbeat_interval),
     );
-    $render['parallel_tasks'] = array(
+    $render['concurrent_tasks'] = array(
       '#type' => 'item',
       '#title' => t('Parallel tasks'),
-      '#markup' => filter_xss($this->parallel_tasks),
+      '#markup' => filter_xss($this->concurrent_tasks),
     );
   }
 
@@ -86,11 +86,11 @@ class hostingService_QueueWorker_Skynet extends hostingService_QueueWorker {
       '#default_value' => $this->heartbeat_interval,
     );
 
-    $form['parallel_tasks'] = array(
+    $form['concurrent_tasks'] = array(
       '#type' => 'textfield',
       '#title' => t('Parallel tasks'),
       '#description' => t('The maximum number of tasks to process in parallel.'),
-      '#default_value' => $this->parallel_tasks,
+      '#default_value' => $this->concurrent_tasks,
     );
 
   }
@@ -104,8 +104,8 @@ class hostingService_QueueWorker_Skynet extends hostingService_QueueWorker {
     if ($this->heartbeat_interval < 30) {
       form_set_error('heartbeat_interval', t("The heartbeat interval must not be shorter than 30 seconds."));
     }
-    if ($this->parallel_tasks < 1) {
-      form_set_error('parallel_tasks', t("Cannot run fewer than one (1) task at a time."));
+    if ($this->concurrent_tasks < 1) {
+      form_set_error('concurrent_tasks', t("Cannot run fewer than one (1) task at a time."));
     }
   }
 
@@ -121,7 +121,7 @@ class hostingService_QueueWorker_Skynet extends hostingService_QueueWorker {
   function insert() {
     parent::insert();
     variable_set('hosting_skynet_heartbeat_interval_' . $this->server->nid, $this->heartbeat_interval);
-    variable_set('hosting_skynet_parallel_tasks_' . $this->server->nid, $this->parallel_tasks);
+    variable_set('hosting_skynet_concurrent_tasks_' . $this->server->nid, $this->concurrent_tasks);
   }
 
   /**
@@ -132,7 +132,7 @@ class hostingService_QueueWorker_Skynet extends hostingService_QueueWorker {
   function update() {
     parent::update();
     variable_set('hosting_skynet_heartbeat_interval_' . $this->server->nid, $this->heartbeat_interval);
-    variable_set('hosting_skynet_parallel_tasks_' . $this->server->nid, $this->parallel_tasks);
+    variable_set('hosting_skynet_concurrent_tasks_' . $this->server->nid, $this->concurrent_tasks);
   }
 
   /**
@@ -141,7 +141,7 @@ class hostingService_QueueWorker_Skynet extends hostingService_QueueWorker {
   function delete() {
     parent::delete();
     variable_del('hosting_skynet_heartbeat_interval_' . $this->server->nid);
-    variable_del('hosting_skynet_parallel_tasks_' . $this->server->nid);
+    variable_del('hosting_skynet_concurrent_tasks_' . $this->server->nid);
   }
 
   /**
@@ -158,7 +158,7 @@ class hostingService_QueueWorker_Skynet extends hostingService_QueueWorker {
     parent::context_options($task_type, $ref_type, $task);
 
     $task->context_options['heartbeat_interval'] = $this->heartbeat_interval;
-    $task->context_options['parallel_tasks'] = $this->parallel_tasks;
+    $task->context_options['concurrent_tasks'] = $this->concurrent_tasks;
   }
 }
 
